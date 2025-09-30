@@ -1,0 +1,4 @@
+Tamanho,Tempo_Sequencial_ms,Tempo_Binaria_ms,Comp_Sequencial,Comp_Binaria,Speedup_Tempo,Reducao_Comparacoes
+10000,1.673,0.012,7001.8,35.7,139.42,195.91
+50000,9.359,0.032,35826.8,41.7,292.47,859.77
+100000,17.484,0.019,65919.3,44.1,920.21,1495.79
