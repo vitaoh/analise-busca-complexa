@@ -20,8 +20,10 @@ plt.rcParams['figure.figsize'] = (12, 8)
 plt.rcParams['font.size'] = 12
 
 class GeradorGraficos:
-    def __init__(self, arquivo_csv='resultados_tp1.csv'):
-        self.arquivo_csv = arquivo_csv
+    def __init__(self, arquivo_csv='output/resultados.csv', pasta_saida='graficos'):
+        self.arquivo_csv = Path(arquivo_csv)
+        self.diretorio_saida = Path(pasta_saida)
+        self.diretorio_saida.mkdir(parents=True, exist_ok=True)
         self.df = None
         self.verificar_arquivo()
 
@@ -84,7 +86,7 @@ class GeradorGraficos:
         ax2.grid(True, alpha=0.3)
 
         plt.tight_layout()
-        plt.savefig('grafico_tempo_execucao.png', dpi=300, bbox_inches='tight')
+        plt.savefig(self.diretorio_saida / 'grafico_tempo_execucao.png', dpi=300, bbox_inches='tight')
         print("📈 Gráfico salvo: grafico_tempo_execucao.png")
 
     def grafico_comparacoes(self):
@@ -121,7 +123,7 @@ class GeradorGraficos:
         ax2.grid(True, alpha=0.3)
 
         plt.tight_layout()
-        plt.savefig('grafico_comparacoes.png', dpi=300, bbox_inches='tight')
+        plt.savefig(self.diretorio_saida / 'grafico_comparacoes.png', dpi=300, bbox_inches='tight')
         print("📈 Gráfico salvo: grafico_comparacoes.png")
 
     def grafico_complexidade_teorica(self):
@@ -166,7 +168,7 @@ class GeradorGraficos:
                     f'{v:.1f}x', ha='center', va='bottom', fontweight='bold')
 
         plt.tight_layout()
-        plt.savefig('grafico_complexidade_teorica.png', dpi=300, bbox_inches='tight')
+        plt.savefig(self.diretorio_saida / 'grafico_complexidade_teorica.png', dpi=300, bbox_inches='tight')
         print("📈 Gráfico salvo: grafico_complexidade_teorica.png")
 
     def grafico_speedup(self):
@@ -189,7 +191,7 @@ class GeradorGraficos:
                    f'{v:.1f}x', ha='center', va='bottom', fontweight='bold')
 
         plt.tight_layout()
-        plt.savefig('grafico_speedup.png', dpi=300, bbox_inches='tight')
+        plt.savefig(self.diretorio_saida / 'grafico_speedup.png', dpi=300, bbox_inches='tight')
         print("📈 Gráfico salvo: grafico_speedup.png")
 
     def tabela_resultados(self):
@@ -228,7 +230,7 @@ class GeradorGraficos:
 
         plt.title('Resultados Completos do TP1 - Algoritmos de Pesquisa', 
                  fontsize=16, fontweight='bold', pad=20)
-        plt.savefig('tabela_resultados.png', dpi=300, bbox_inches='tight')
+        plt.savefig(self.diretorio_saida / 'tabela_resultados.png', dpi=300, bbox_inches='tight')
         print("📊 Tabela salva: tabela_resultados.png")
 
     def gerar_todos_graficos(self):

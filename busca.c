@@ -111,7 +111,7 @@ void criarChavesTeste(int *vetor, int tamanho, int *existentes, int *inexistente
 
 // === FUNÇÃO PARA SALVAR RESULTADOS EM CSV ===
 void salvarResultadoCSV(Resultado resultados[], int num_resultados) {
-    FILE *arquivo = fopen("resultados_tp1.csv", "w");
+    FILE *arquivo = fopen("resultados.csv", "w");
     if (arquivo == NULL) {
         printf("Erro: Não foi possível criar o arquivo CSV!\n");
         return;
@@ -136,7 +136,7 @@ void salvarResultadoCSV(Resultado resultados[], int num_resultados) {
     }
 
     fclose(arquivo);
-    printf("\n✅ Resultados salvos em 'resultados_tp1.csv'\n");
+    printf("\n✅ Resultados salvos em 'resultados.csv'\n");
 }
 
 // === FUNÇÃO PRINCIPAL DE TESTE ===
@@ -240,7 +240,7 @@ int main() {
     printf("\n==============================================\n");
     printf("TESTES CONCLUÍDOS!\n");
     printf("\n📁 Arquivos gerados:\n");
-    printf("  • resultados_tp1.csv - Dados dos testes\n");
+    printf("  • resultados.csv - Dados dos testes\n");
     printf("\n🐍 Próximo passo:\n");
     printf("  Execute: python3 gerar_graficos.py\n");
     printf("==============================================\n");
