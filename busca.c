@@ -1,10 +1,3 @@
-/*
- * Trabalho Prático 1 (TP1): Implementação e Análise de Algoritmos de Pesquisa
- * Versão com exportação para CSV - Integração com Python
- * Disciplina: Organização e Recuperação de Informação
- * Data de Entrega: 7 de Outubro de 2025
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -228,7 +221,7 @@ int main() {
 
     printf("\n==============================================\n");
     printf("TESTES CONCLUÍDOS!\n");
-    printf("\n🐍 Próximo passo:\n");
+    printf("\nPróximo passo:\n");
     printf("  Execute: python3 gerar_graficos.py\n");
     printf("==============================================\n");
 
