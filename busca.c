@@ -1,24 +1,14 @@
-/*
- * Trabalho Prático 1 (TP1): Implementação e Análise de Algoritmos de Pesquisa
- * Versão com exportação para CSV - Integração com Python
- * Disciplina: Organização e Recuperação de Informação
- * Data de Entrega: 7 de Outubro de 2025
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
-// Constantes do programa
 #define N_10K 10000
 #define N_50K 50000
 #define N_100K 100000
 #define NUM_TESTES 100
 
-// Variável global para contar comparações
 long long comparacoes;
 
-// Estrutura para armazenar resultados
 typedef struct {
     int tamanho;
     double tempo_sequencial;
@@ -27,8 +17,7 @@ typedef struct {
     double comp_binaria;
 } Resultado;
 
-// === IMPLEMENTAÇÕES DOS ALGORITMOS ===
-
+// --- Algoritmos de busca ---
 int buscaSequencial(int *vetor, int tamanho, int chave) {
     comparacoes = 0;
     for (int i = 0; i < tamanho; i++) {
@@ -62,8 +51,8 @@ int buscaBinaria(int *vetor, int tamanho, int chave) {
     return -1;
 }
 
-// === FUNÇÕES AUXILIARES ===
 
+// --- Funções auxiliares ---
 int comparar(const void *a, const void *b) {
     return (*(int*)a - *(int*)b);
 }
@@ -220,13 +209,6 @@ Resultado rodarTestes(int tamanho) {
 }
 
 int main() {
-    printf("==============================================\n");
-    printf("    TP1 - ALGORITMOS DE PESQUISA\n");
-    printf("    (Versão com exportação CSV)\n");
-    printf("==============================================\n");
-    printf("Implementação: Busca Sequencial vs Binária\n");
-    printf("Testes: 3 tamanhos x 100 buscas cada\n");
-
     srand(time(NULL));
 
     Resultado resultados[3];
@@ -239,9 +221,7 @@ int main() {
 
     printf("\n==============================================\n");
     printf("TESTES CONCLUÍDOS!\n");
-    printf("\n📁 Arquivos gerados:\n");
-    printf("  • resultados.csv - Dados dos testes\n");
-    printf("\n🐍 Próximo passo:\n");
+    printf("\nPróximo passo:\n");
     printf("  Execute: python3 gerar_graficos.py\n");
     printf("==============================================\n");
 

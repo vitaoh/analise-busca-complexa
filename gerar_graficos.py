@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Gerador de Gráficos para TP1 - Algoritmos de Pesquisa
 Lê os resultados do arquivo CSV gerado pelo programa em C
@@ -30,26 +29,17 @@ class GeradorGraficos:
     def verificar_arquivo(self):
         """Verifica se o arquivo CSV existe"""
         if not os.path.exists(self.arquivo_csv):
-            print(f"❌ ERRO: Arquivo '{self.arquivo_csv}' não encontrado!")
-            print("\n🔧 SOLUÇÃO:")
-            print("1. Compile e execute o programa C primeiro:")
-            print("   gcc tp1_busca_com_csv.c -o tp1_busca")
-            print("   ./tp1_busca")
-            print("2. Depois execute este script Python")
+            print(f"Erro: Arquivo '{self.arquivo_csv}' não encontrado.")
+            print("Execute primeiro o programa em C para gerar o CSV.")
             sys.exit(1)
 
-        print(f"✅ Arquivo CSV encontrado: {self.arquivo_csv}")
-
     def carregar_dados(self):
-        """Carrega e processa os dados do CSV"""
+        """Carrega o arquivo CSV com os resultados"""
         try:
             self.df = pd.read_csv(self.arquivo_csv)
-            print("📊 Dados carregados com sucesso!")
-            print(f"   Linhas: {len(self.df)}")
-            print(f"   Colunas: {list(self.df.columns)}")
             return True
         except Exception as e:
-            print(f"❌ Erro ao carregar CSV: {e}")
+            print(f"Erro ao carregar CSV: {e}")
             return False
 
     def grafico_tempo_execucao(self):
@@ -87,7 +77,6 @@ class GeradorGraficos:
 
         plt.tight_layout()
         plt.savefig(self.diretorio_saida / 'grafico_tempo_execucao.png', dpi=300, bbox_inches='tight')
-        print("📈 Gráfico salvo: grafico_tempo_execucao.png")
 
     def grafico_comparacoes(self):
         """Gráfico comparando número de comparações"""
@@ -124,7 +113,6 @@ class GeradorGraficos:
 
         plt.tight_layout()
         plt.savefig(self.diretorio_saida / 'grafico_comparacoes.png', dpi=300, bbox_inches='tight')
-        print("📈 Gráfico salvo: grafico_comparacoes.png")
 
     def grafico_complexidade_teorica(self):
         """Gráfico comparando resultados práticos com complexidade teórica"""
@@ -169,10 +157,18 @@ class GeradorGraficos:
 
         plt.tight_layout()
         plt.savefig(self.diretorio_saida / 'grafico_complexidade_teorica.png', dpi=300, bbox_inches='tight')
-        print("📈 Gráfico salvo: grafico_complexidade_teorica.png")
 
     def grafico_speedup(self):
-        """Gráfico mostrando o speedup da busca binária"""
+        """
+        Gráfico mostrando o 'speedup' da busca binária.
+        Speedup mede **quanto mais rápido** um algoritmo é em relação a outro.
+        É calculado como:
+
+            Speedup = Tempo_Sequencial / Tempo_Binaria
+
+        Exemplo: se a busca binária leva 5 ms e a sequencial 50 ms,
+        então Speedup = 50 / 5 = 10 → a busca binária é 10x mais rápida.
+        """
         fig, ax = plt.subplots(figsize=(10, 6))
 
         bars = ax.bar(range(len(self.df)), self.df['Speedup_Tempo'], 
@@ -192,7 +188,6 @@ class GeradorGraficos:
 
         plt.tight_layout()
         plt.savefig(self.diretorio_saida / 'grafico_speedup.png', dpi=300, bbox_inches='tight')
-        print("📈 Gráfico salvo: grafico_speedup.png")
 
     def tabela_resultados(self):
         """Cria uma tabela formatada dos resultados"""
@@ -231,14 +226,11 @@ class GeradorGraficos:
         plt.title('Resultados Completos do TP1 - Algoritmos de Pesquisa', 
                  fontsize=16, fontweight='bold', pad=20)
         plt.savefig(self.diretorio_saida / 'tabela_resultados.png', dpi=300, bbox_inches='tight')
-        print("📊 Tabela salva: tabela_resultados.png")
 
     def gerar_todos_graficos(self):
         """Gera todos os gráficos"""
         if not self.carregar_dados():
             return False
-
-        print("\n🎨 Gerando gráficos...")
 
         try:
             self.grafico_tempo_execucao()
@@ -247,50 +239,22 @@ class GeradorGraficos:
             self.grafico_speedup()
             self.tabela_resultados()
 
-            print("\n✅ TODOS OS GRÁFICOS GERADOS COM SUCESSO!")
-            print("\n📁 Arquivos criados:")
-            print("  • grafico_tempo_execucao.png")
-            print("  • grafico_comparacoes.png") 
-            print("  • grafico_complexidade_teorica.png")
-            print("  • grafico_speedup.png")
-            print("  • tabela_resultados.png")
-
             return True
 
         except Exception as e:
-            print(f"❌ Erro ao gerar gráficos: {e}")
             return False
-
-    def mostrar_estatisticas(self):
-        """Mostra estatísticas resumidas dos resultados"""
-        if self.df is None:
-            return
-
-        print("\n📊 ESTATÍSTICAS DOS RESULTADOS:")
-        print("=" * 50)
-
-        for _, row in self.df.iterrows():
-            print(f"\nTamanho N = {int(row['Tamanho']):,}:")
-            print(f"  Busca Sequencial: {row['Tempo_Sequencial_ms']:.3f} ms, {row['Comp_Sequencial']:.1f} comparações")
-            print(f"  Busca Binária:    {row['Tempo_Binaria_ms']:.3f} ms, {row['Comp_Binaria']:.1f} comparações")
-            print(f"  Melhoria:         {row['Speedup_Tempo']:.1f}x tempo, {row['Reducao_Comparacoes']:.1f}x comparações")
 
 def main():
     print("🚀 GERADOR DE GRÁFICOS - TP1 ALGORITMOS DE PESQUISA")
-    print("=" * 60)
 
     gerador = GeradorGraficos()
 
     if gerador.gerar_todos_graficos():
-        gerador.mostrar_estatisticas()
 
-        print("\n🎯 PRÓXIMOS PASSOS:")
-        print("1. Use os gráficos gerados no seu relatório")
-        print("2. Compare os resultados com as complexidades teóricas")
-        print("3. Analise como a diferença cresce com o tamanho do vetor")
+        print("\n Concluído com sucesso:")
 
     else:
-        print("\n❌ Falha ao gerar gráficos!")
+        print("\nFalha ao gerar gráficos!")
 
 if __name__ == "__main__":
     main()
