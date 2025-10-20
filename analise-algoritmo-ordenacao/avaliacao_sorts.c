@@ -11,9 +11,7 @@ void copiarVetor(int *origem, int *destino, int n) {
         destino[i] = origem[i];
 }
 
-// ---------------------------
 // Bubble Sort
-// ---------------------------
 long long bubbleSort(int *X, int n) {
     long long comparacoes = 0;
     int aux;
@@ -30,9 +28,7 @@ long long bubbleSort(int *X, int n) {
     return comparacoes;
 }
 
-// ---------------------------
 // Insertion Sort
-// ---------------------------
 long long insertionSort(int *X, int n) {
     long long comparacoes = 0;
     int eleito, j;
@@ -45,15 +41,13 @@ long long insertionSort(int *X, int n) {
             j--;
         }
         if (j >= 0)
-            comparacoes++; // última comparação que falha
+            comparacoes++;
         X[j + 1] = eleito;
     }
     return comparacoes;
 }
 
-// ---------------------------
 // Selection Sort
-// ---------------------------
 long long selectionSort(int *X, int n) {
     long long comparacoes = 0;
     int menor, pos, aux;
@@ -76,9 +70,7 @@ long long selectionSort(int *X, int n) {
     return comparacoes;
 }
 
-// ---------------------------
 // Merge Sort
-// ---------------------------
 long long comparacoesMerge = 0;
 
 void intercala(int X[], int inicio, int meio, int fim) {
@@ -131,7 +123,6 @@ int main() {
         for (int i = 0; i < n; i++)
             original[i] = rand() % 100000;
 
-        // Testar cada algoritmo
         const char *algoritmos[] = {"Bubble Sort", "Insertion Sort", "Selection Sort", "Merge Sort"};
         for (int a = 0; a < 4; a++) {
             copiarVetor(original, vetor, n);

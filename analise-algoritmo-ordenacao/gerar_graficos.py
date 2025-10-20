@@ -69,7 +69,7 @@ for (i, j), cell in table.get_celld().items():
     else:
         cell.set_facecolor('#ecf0f1')
 
-# Título com mais espaçamento (não corta mais)
+# Título com mais espaçamento
 plt.title("Tabela de Resultados dos Algoritmos de Ordenação", pad=30, fontsize=14, fontweight='bold')
 
 # Salvar com margens extras
