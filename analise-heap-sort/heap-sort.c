@@ -23,12 +23,18 @@ void max_heapify(int arr[], int n, int i) {
     int esquerda = 2 * i + 1;
     int direita = 2 * i + 2;
 
-    comparacoes++;
-    if (esquerda < n && arr[esquerda] > arr[maior])
-        maior = esquerda;
-    comparacoes++;
-    if (direita < n && arr[direita] > arr[maior])
-        maior = direita;
+    if (esquerda < n) {
+        comparacoes++;
+        if (arr[esquerda] > arr[maior])
+            maior = esquerda;
+    }
+
+    if (direita < n) {
+        comparacoes++;
+        if (arr[direita] > arr[maior])
+            maior = direita;
+    }
+
     if (maior != i) {
         swap(&arr[i], &arr[maior]);
         max_heapify(arr, n, maior);

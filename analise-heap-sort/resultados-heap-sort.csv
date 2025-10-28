@@ -1,4 +1,4 @@
 Algoritmo,N,Tempo_Medio_segundos,Numero_Medio_Comparacoes,Complexidade_Teorica,Razao_Pratico_Teorico
-Heap Sort,10000,0.002301,258349,132877,1.94
-Heap Sort,50000,0.012180,1524733,780482,1.95
-Heap Sort,100000,0.026370,3249826,1660964,1.96
+Heap Sort,10000,0.004100,235457,132877,1.77
+Heap Sort,50000,0.026500,1409782,780482,1.81
+Heap Sort,100000,0.057900,3019547,1660964,1.82

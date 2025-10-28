@@ -5,6 +5,7 @@
 #define TAM1 10000
 #define TAM2 50000
 #define TAM3 100000
+#define REPETICOES 5 // número de execuções para tirar média
 
 void copiarVetor(int *origem, int *destino, int n) {
     for (int i = 0; i < n; i++)
@@ -41,7 +42,7 @@ long long insertionSort(int *X, int n) {
             j--;
         }
         if (j >= 0)
-            comparacoes++;
+            comparacoes++; // última comparação que falha
         X[j + 1] = eleito;
     }
     return comparacoes;
@@ -70,14 +71,13 @@ long long selectionSort(int *X, int n) {
     return comparacoes;
 }
 
-// Merge Sort
-long long comparacoesMerge = 0;
-
-void intercala(int X[], int inicio, int meio, int fim) {
+// Merge Sort (sem variável global)
+void intercala(int X[], int inicio, int meio, int fim, long long *comparacoes) {
     int *aux = (int *)malloc((fim - inicio + 1) * sizeof(int));
     int i = inicio, j = meio + 1, k = 0;
+
     while (i <= meio && j <= fim) {
-        comparacoesMerge++;
+        (*comparacoes)++;
         if (X[i] <= X[j]) aux[k++] = X[i++];
         else aux[k++] = X[j++];
     }
@@ -87,21 +87,22 @@ void intercala(int X[], int inicio, int meio, int fim) {
     free(aux);
 }
 
-void mergeSortRec(int X[], int inicio, int fim) {
+void mergeSortRec(int X[], int inicio, int fim, long long *comparacoes) {
     if (inicio < fim) {
         int meio = (inicio + fim) / 2;
-        mergeSortRec(X, inicio, meio);
-        mergeSortRec(X, meio + 1, fim);
-        intercala(X, inicio, meio, fim);
+        mergeSortRec(X, inicio, meio, comparacoes);
+        mergeSortRec(X, meio + 1, fim, comparacoes);
+        intercala(X, inicio, meio, fim, comparacoes);
     }
 }
 
 long long mergeSort(int *X, int n) {
-    comparacoesMerge = 0;
-    mergeSortRec(X, 0, n - 1);
-    return comparacoesMerge;
+    long long comparacoes = 0;
+    mergeSortRec(X, 0, n - 1, &comparacoes);
+    return comparacoes;
 }
 
+// Função principal
 int main() {
     srand(time(NULL));
 
@@ -124,20 +125,31 @@ int main() {
             original[i] = rand() % 100000;
 
         const char *algoritmos[] = {"Bubble Sort", "Insertion Sort", "Selection Sort", "Merge Sort"};
+
         for (int a = 0; a < 4; a++) {
-            copiarVetor(original, vetor, n);
-            clock_t inicio = clock();
-            long long comparacoes = 0;
+            double tempo_total = 0;
+            long long comparacoes_total = 0;
 
-            if (a == 0) comparacoes = bubbleSort(vetor, n);
-            else if (a == 1) comparacoes = insertionSort(vetor, n);
-            else if (a == 2) comparacoes = selectionSort(vetor, n);
-            else comparacoes = mergeSort(vetor, n);
+            for (int r = 0; r < REPETICOES; r++) {
+                copiarVetor(original, vetor, n);
+                clock_t inicio = clock();
+                long long comparacoes = 0;
 
-            clock_t fim = clock();
-            double tempo = (double)(fim - inicio) / CLOCKS_PER_SEC;
-            fprintf(f, "%s,%d,%.6f,%lld\n", algoritmos[a], n, tempo, comparacoes);
-            printf("%s N=%d concluído.\n", algoritmos[a], n);
+                if (a == 0) comparacoes = bubbleSort(vetor, n);
+                else if (a == 1) comparacoes = insertionSort(vetor, n);
+                else if (a == 2) comparacoes = selectionSort(vetor, n);
+                else comparacoes = mergeSort(vetor, n);
+
+                clock_t fim = clock();
+                tempo_total += (double)(fim - inicio) / CLOCKS_PER_SEC;
+                comparacoes_total += comparacoes;
+            }
+
+            double tempo_medio = tempo_total / REPETICOES;
+            long long comparacoes_medias = comparacoes_total / REPETICOES;
+
+            fprintf(f, "%s,%d,%.6f,%lld\n", algoritmos[a], n, tempo_medio, comparacoes_medias);
+            printf("%s N=%d concluído (média de %d execuções).\n", algoritmos[a], n, REPETICOES);
         }
 
         free(original);
@@ -145,6 +157,6 @@ int main() {
     }
 
     fclose(f);
-    printf("\n Arquivo 'resultados.csv' gerado com sucesso!\n");
+    printf("\n✅ Arquivo 'resultados.csv' gerado com sucesso!\n");
     return 0;
 }
