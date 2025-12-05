@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX 11  // 10 vértices + 1 (índice 0 não usado)
+#define MAX 11 
 
 typedef struct vertice {
     int num;
@@ -20,9 +20,8 @@ typedef struct queue {
 
 LISTAADJ Adj[MAX];
 int marcado[MAX], dist[MAX], pai[MAX];
-int tam = 10;  // Grafo fixo com 10 vértices
+int tam = 10; 
 
-// Mapeamento Nome ↔ ID
 char *nomes[MAX] = {
     "",
     "Alice",
@@ -37,7 +36,6 @@ char *nomes[MAX] = {
     "Julia"
 };
 
-// Funções da Fila (BFS usa fila, não pilha)
 void enqueue(QUEUE **inicio, QUEUE **fim, int n) {
     QUEUE *novo = (QUEUE *)malloc(sizeof(QUEUE));
     novo->numv = n;
@@ -61,7 +59,6 @@ int dequeue(QUEUE **inicio, QUEUE **fim) {
     return v;
 }
 
-// Converter nome para ID
 int nomeParaID(char *nome) {
     for (int i = 1; i <= tam; i++) {
         if (strcmp(nomes[i], nome) == 0) return i;
@@ -69,12 +66,9 @@ int nomeParaID(char *nome) {
     return -1;
 }
 
-// Construir grafo fixo conforme o PDF
 void construirGrafoFixo() {
-    // Inicializar listas
     for (int i = 1; i <= tam; i++) Adj[i].listav = NULL;
     
-    // Conexões conforme especificado no PDF
     // Alice (1) -> Bruno(2), Carla(3)
     VERTICE *novo = (VERTICE*)malloc(sizeof(VERTICE)); novo->num = 2; novo->prox = Adj[1].listav; Adj[1].listav = novo;
     novo = (VERTICE*)malloc(sizeof(VERTICE)); novo->num = 3; novo->prox = Adj[1].listav; Adj[1].listav = novo;
@@ -120,18 +114,15 @@ void construirGrafoFixo() {
     novo = (VERTICE*)malloc(sizeof(VERTICE)); novo->num = 9; novo->prox = Adj[10].listav; Adj[10].listav = novo;
 }
 
-// Algoritmo BFS principal
 int bfs(int origem, int destino) {
     QUEUE *inicio = NULL, *fim = NULL;
     
-    // Inicializar arrays
     for (int i = 1; i <= tam; i++) {
         marcado[i] = 0;
         dist[i] = -1;
         pai[i] = -1;
     }
     
-    // Começar pela origem
     marcado[origem] = 1;
     dist[origem] = 0;
     enqueue(&inicio, &fim, origem);
@@ -149,7 +140,6 @@ int bfs(int origem, int destino) {
                 enqueue(&inicio, &fim, w);
                 
                 if (w == destino) {
-                    // Limpar fila
                     while (inicio != NULL) dequeue(&inicio, &fim);
                     return dist[w];
                 }
@@ -157,10 +147,9 @@ int bfs(int origem, int destino) {
             vert = vert->prox;
         }
     }
-    return -1;  // Sem caminho
+    return -1;
 }
 
-// Reconstruir e imprimir caminho
 void imprimirCaminho(int origem, int destino) {
     if (destino == origem) {
         printf("%s", nomes[origem]);
@@ -212,7 +201,6 @@ int main() {
         }
     } while (op != 2);
     
-    // Liberar memória
     for (int i = 1; i <= tam; i++) {
         VERTICE *v = Adj[i].listav;
         while (v != NULL) {
